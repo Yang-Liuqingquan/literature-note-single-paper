@@ -17,6 +17,17 @@
 └── .github/workflows/release.yml
 ```
 
+## 依赖边界
+
+改代码时请注意这条边界：**除 Zotero 本地 API 外不引入任何外部依赖**。
+
+- 不依赖任何其他 Obsidian 插件（Templater、Dataview、Zotero Integration 都不调用），用户只装 Obsidian + Zotero 即可运行；
+- 不依赖 npm 包，`build.js` 与 `test/run.js` 只用 Node 内置模块；
+- 网络请求只发往 `127.0.0.1:23119`（Zotero 本地 API 与 Better BibTeX 的 CAYW）；
+- 文件读写只用 Obsidian 的 `vault` API，唯一的例外是调试日志（`RUNTIME.debug` 打开时才用 Node `fs` 写插件目录）。
+
+如果将来真要依赖别的插件，必须同时更新：README 的「依赖清单」、诊断面板的检查项、本文档的这一节。
+
 ## 构建
 
 ```bash
@@ -91,5 +102,6 @@ git push origin main --tags
 1. 关掉 Zotero → 跑「检查运行环境」，五条应报错或标黄且提示可操作；
 2. 打开 Zotero → 再检查一遍，前两条应转绿；
 3. 建一篇笔记：选条目、选目录、确认文献信息与 APA、确认文件已打开；
-4. 去 Zotero 看条目上是否多了标签；
-5. 删掉笔记，确认标签被撤；若有其他笔记引用同条目则应保留。
+4. 关掉向导，再从命令「打开设置向导」重新打开，确认能反复进入且状态是最新的；
+5. 去 Zotero 看条目上是否多了标签；
+6. 删掉笔记，确认标签被撤；若有其他笔记引用同条目则应保留。

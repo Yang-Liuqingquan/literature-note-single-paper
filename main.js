@@ -943,7 +943,7 @@ class FolderPickerModal extends FuzzySuggestModal {
 }
 
 /* ------------------------------------------------------------------ */
-/* 环境自检 / 首次设置向导                                              */
+/* 设置向导与环境自检                                                  */
 /* ------------------------------------------------------------------ */
 
 function formatDiagnostics(rows) {
@@ -967,11 +967,11 @@ class DiagnosticsModal extends Modal {
   onOpen() {
     const contentEl = this.contentEl;
     contentEl.createEl('h3', {
-      text: this.opts.wizard ? '先花一分钟把环境配好' : '检查运行环境',
+      text: this.opts.wizard ? '设置向导' : '检查运行环境',
     });
     contentEl.createEl('p', {
       text: this.opts.wizard
-        ? '下面四项会逐项自检。绿勾的直接跳过；打叉的按提示处理，或者先点「完成」稍后再配。'
+        ? '逐项自检，打叉的按提示处理；其余项不影响使用。关掉后随时可以用命令「打开设置向导」回到这里。'
         : '逐项检查插件依赖，把整段诊断信息贴进 issue 能省很多来回。',
     });
 
@@ -1131,7 +1131,7 @@ class LiteratureNotePlugin extends Plugin {
 
     this.addCommand({
       id: 'setup-wizard',
-      name: '运行首次设置向导',
+      name: '打开设置向导',
       callback: () => this.openSetupWizard(),
     });
 
@@ -1226,7 +1226,36 @@ class LiteratureNotePlugin extends Plugin {
         (this.settings.removeTagOnDelete !== false ? '开' : '关'),
     });
 
+    rows.push({
+      label: '第三方插件依赖',
+      ok: true,
+      detail:
+        '无。Templater、Dataview、Zotero Integration 等都不是必需，本插件也不调用它们' +
+        this.installedPluginHint(),
+    });
+
     return rows;
+  }
+
+  installedPluginHint() {
+    const known = {
+      'templater-obsidian': 'Templater',
+      dataview: 'Dataview',
+      'obsidian-zotero-desktop-connector': 'Zotero Integration',
+    };
+    let enabled = null;
+    try {
+      const registry = this.app && this.app.plugins;
+      enabled = registry && registry.enabledPlugins ? registry.enabledPlugins : null;
+    } catch (err) {
+      enabled = null;
+    }
+    if (!enabled || typeof enabled.has !== 'function') return '';
+    const present = Object.keys(known)
+      .filter((id) => enabled.has(id))
+      .map((id) => known[id]);
+    if (!present.length) return '';
+    return '（当前已启用：' + present.join('、') + '，与本插件互不依赖）';
   }
 
   apiBase() {
@@ -1744,9 +1773,9 @@ class LitNoteSettingTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName('还没配好？')
-      .setDesc('首次使用先跑一遍向导；随时可以检查 Zotero、Better BibTeX、模板与授权状态。')
+      .setDesc('首次使用建议先走一遍向导；之后随时可以回来复查 Zotero、Better BibTeX、模板与授权状态。')
       .addButton((button) =>
-        button.setButtonText('运行设置向导').onClick(() => this.plugin.openSetupWizard())
+        button.setButtonText('打开设置向导').onClick(() => this.plugin.openSetupWizard())
       )
       .addButton((button) =>
         button.setButtonText('检查运行环境').onClick(() => this.plugin.runDiagnostics())
