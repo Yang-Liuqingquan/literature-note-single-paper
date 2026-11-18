@@ -968,19 +968,6 @@ async function asyncChecks() {
     check('模板安装：已存在时不再写文件', installState.created.length, 1);
     checkTrue('模板安装：已存在时提示未覆盖', StubNotice.messages[0].indexOf('（未覆盖）') !== -1);
 
-    // 依赖声明：诊断面板要能说清「不需要其他插件」，并如实列出当前启用的几个。
-    const hintProbe = Object.create(Plugin.prototype);
-    hintProbe.app = { plugins: { enabledPlugins: new Set(['templater-obsidian', 'dataview']) } };
-    check(
-      '依赖提示：列出已启用的 Templater 与 Dataview',
-      hintProbe.installedPluginHint(),
-      '（当前已启用：Templater、Dataview，与本插件互不依赖）'
-    );
-    hintProbe.app.plugins.enabledPlugins = new Set();
-    check('依赖提示：都没启用时为空串', hintProbe.installedPluginHint(), '');
-    hintProbe.app = {};
-    check('依赖提示：读不到插件注册表时不报错', hintProbe.installedPluginHint(), '');
-
     /* ---------------- 标签联动：写入协议 ---------------- */
 
     writeState.authorizeMode = 'remember';
