@@ -82,6 +82,37 @@ git push origin main --tags
 
 推 tag 会触发 `.github/workflows/release.yml`：先校验 tag 与 `manifest.json` 的版本一致，跑测试，重新构建 `main.js`，再把 `main.js`、`manifest.json`、`styles.css` 传到 GitHub Release。
 
+### 本地制作发布包
+
+不想等 CI，或要先把包发给别人试用时：
+
+```powershell
+# 在仓库根目录，Windows PowerShell 7
+$ver = (Get-Content manifest.json -Raw | ConvertFrom-Json).version
+node build.js
+node test/run.js
+node -e "const m=require('./manifest.json');const s=require('fs').readFileSync('main.src.js','utf8');const v=(s.match(/const VERSION = '([^']+)'/)||[])[1];if(m.version!==v)throw new Error('版本不一致: '+m.version+' vs '+v)"
+
+$dist = "dist/literature-note-single-$ver"
+Remove-Item dist -Recurse -Force -ErrorAction SilentlyContinue
+New-Item -ItemType Directory -Path $dist -Force | Out-Null
+Copy-Item main.js,manifest.json,styles.css,README.md,LICENSE $dist
+Compress-Archive -Path "$dist/*" -DestinationPath "dist/literature-note-single-$ver.zip" -Force
+```
+
+产物：
+
+```
+dist/
+├── literature-note-single-1.0.0/     # 解压即可安装的三件套 + 文档
+├── literature-note-single-1.0.0.zip  # 同上，整包
+└── SHA256SUMS.txt                    # 各文件与 zip 的校验和
+```
+
+zip 里文件在根层，用户解压到 `.obsidian/plugins/literature-note-single/` 即可。上传 GitHub Release 时**必须单独附上** `main.js`、`manifest.json`、`styles.css` 三个文件——Obsidian 的更新检查与 BRAT 只认这三个附件，不认 zip。
+
+`dist/` 已写进 `.gitignore`，现做现传，不入库。
+
 ## 上架 Obsidian 社区插件
 
 1. 先确保本仓库符合[官方要求](https://docs.obsidian.md/Plugins/Releasing/Submission+requirements+for+plugins)：`manifest.json` 的 `description` 不以句号结尾、不超过 250 字符，`id` 不含 `obsidian` 字样；

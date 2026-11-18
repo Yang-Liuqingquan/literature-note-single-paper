@@ -9,6 +9,9 @@ test/.dbg.js
 # 部署备份
 _deploy-backup-*/
 
+# 发布包（由 main.js/manifest.json/styles.css 现做现传，不入库）
+dist/
+
 # 编辑器与系统
 .vscode/
 .idea/
