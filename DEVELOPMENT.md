@@ -93,23 +93,23 @@ node build.js
 node test/run.js
 node -e "const m=require('./manifest.json');const s=require('fs').readFileSync('main.src.js','utf8');const v=(s.match(/const VERSION = '([^']+)'/)||[])[1];if(m.version!==v)throw new Error('版本不一致: '+m.version+' vs '+v)"
 
-$dist = "dist/literature-note-single-$ver"
+$dist = "dist/literature-note-single-paper-$ver"
 Remove-Item dist -Recurse -Force -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Path $dist -Force | Out-Null
 Copy-Item main.js,manifest.json,styles.css,README.md,LICENSE $dist
-Compress-Archive -Path "$dist/*" -DestinationPath "dist/literature-note-single-$ver.zip" -Force
+Compress-Archive -Path "$dist/*" -DestinationPath "dist/literature-note-single-paper-$ver.zip" -Force
 ```
 
 产物：
 
 ```
 dist/
-├── literature-note-single-1.0.0/     # 解压即可安装的三件套 + 文档
-├── literature-note-single-1.0.0.zip  # 同上，整包
+├── literature-note-single-paper-1.0.0/     # 解压即可安装的三件套 + 文档
+├── literature-note-single-paper-1.0.0.zip  # 同上，整包
 └── SHA256SUMS.txt                    # 各文件与 zip 的校验和
 ```
 
-zip 里文件在根层，用户解压到 `.obsidian/plugins/literature-note-single/` 即可。上传 GitHub Release 时**必须单独附上** `main.js`、`manifest.json`、`styles.css` 三个文件——Obsidian 的更新检查与 BRAT 只认这三个附件，不认 zip。
+zip 里文件在根层，用户解压到 `.obsidian/plugins/literature-note-single-paper/` 即可。上传 GitHub Release 时**必须单独附上** `main.js`、`manifest.json`、`styles.css` 三个文件——Obsidian 的更新检查与 BRAT 只认这三个附件，不认 zip。
 
 `dist/` 已写进 `.gitignore`，现做现传，不入库。
 

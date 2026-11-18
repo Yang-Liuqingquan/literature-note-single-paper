@@ -30,7 +30,7 @@ const LOG_FILE = 'last-run.log';
 const LOG_MAX_BYTES = 128 * 1024;
 
 /* 运行期才知道插件 id（日志目录跟着 manifest 走，不写死）。 */
-const RUNTIME = { id: 'literature-note-single', debug: false };
+const RUNTIME = { id: 'literature-note-single-paper', debug: false };
 
 /* 调试日志默认关闭；打开后每一步写进 <插件目录>/last-run.log，超过 128 KB 会清空重写。 */
 function logLine(app, message) {
@@ -329,7 +329,7 @@ function itemMetaLine(data) {
  * 正是带这样的 UA。因此这里用 Node 的 http 模块直连，并显式给一个
  * 非浏览器 UA。
  */
-const USER_AGENT = 'ObsidianLitNoteSingle/1.0 (Zotero local API)';
+const USER_AGENT = 'ObsidianLitNoteSinglePaper/1.0 (Zotero local API)';
 const DEFAULT_TIMEOUT = 8000;
 
 const ZOTERO_API_VERSION = '3';

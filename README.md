@@ -37,7 +37,7 @@
 | Zotero Integration（obsidian-zotero-desktop-connector） | **不需要**。插件自己走 Zotero 本地 HTTP API，与这个插件互不依赖 |
 | Pandoc / 其他导出类插件 | **不需要** |
 
-想自己核实：源码里没有任何对其他 Obsidian 插件的能力性调用（`app.plugins` 只在诊断面板里读一次「当前启用了哪些」，用于展示），模板文件里 `<%` 与 `dataview` 的出现次数都是 0。
+想自己核实：源码里没有任何对其他 Obsidian 插件的能力性调用（`app.plugins` 出现 0 次），模板文件里 `<%` 与 `dataview` 的出现次数也都是 0。
 
 一句话：**只装 Obsidian + Zotero 就能跑，Better BibTeX 只是体验加成。**
 
@@ -46,12 +46,12 @@
 **方式一：手动安装（当前推荐）**
 
 1. 下载本仓库的 `main.js`、`manifest.json`、`styles.css`；
-2. 放到 `<你的仓库>/.obsidian/plugins/literature-note-single/`；
+2. 放到 `<你的仓库>/.obsidian/plugins/literature-note-single-paper/`；
 3. 重启 Obsidian，在「设置 → 第三方插件」里启用「文献笔记生成器（单篇版）」。
 
 **方式二：BRAT**
 
-在 BRAT 里添加 `YOUR-NAME/literature-note-single`。发布过 Release 之后这种方式才可用。
+在 BRAT 里添加 `YOUR-NAME/literature-note-single-paper`。发布过 Release 之后这种方式才可用。
 
 ## 第一次使用与设置向导
 
