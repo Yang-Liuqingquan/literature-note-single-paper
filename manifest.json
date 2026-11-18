@@ -1,0 +1,10 @@
+{
+  "id": "literature-note-single",
+  "name": "文献笔记生成器（单篇版）",
+  "version": "1.0.0",
+  "minAppVersion": "1.4.0",
+  "description": "从 Zotero 条目一键生成单篇文献阅读笔记骨架，并在新建或删除笔记时同步 Zotero 标签",
+  "author": "YOUR NAME",
+  "authorUrl": "https://github.com/YOUR-NAME",
+  "isDesktopOnly": true
+}

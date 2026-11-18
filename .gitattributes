@@ -1,0 +1,6 @@
+# 统一用 LF，避免 Windows 下把换行转成 CRLF 后污染 main.js 与模板
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.ico binary

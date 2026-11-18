@@ -1,0 +1,93 @@
+/* 文献笔记生成器（单篇版）：选择器、诊断面板与设置页样式 */
+
+.litnote-input {
+  width: 100%;
+  padding: 6px 8px;
+  margin: 6px 0 10px;
+  border-radius: 6px;
+  border: 1px solid var(--background-modifier-border);
+  background: var(--background-primary);
+  color: var(--text-normal);
+  font-size: 14px;
+}
+
+.litnote-list {
+  max-height: 52vh;
+  overflow-y: auto;
+}
+
+.litnote-item {
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.litnote-item:hover,
+.litnote-item.is-active {
+  background: var(--background-modifier-hover);
+}
+
+.litnote-title {
+  font-size: 14px;
+  color: var(--text-normal);
+  line-height: 1.4;
+}
+
+.litnote-meta {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+.litnote-status {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 8px;
+}
+
+/* 环境自检 / 首次设置向导 */
+.litnote-diag {
+  margin: 12px 0;
+}
+
+.litnote-diag-row {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.litnote-diag-row:last-child {
+  border-bottom: none;
+}
+
+.litnote-diag-mark {
+  flex: 0 0 18px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.litnote-diag-text {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.litnote-diag-label {
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.litnote-diag-detail {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+  overflow-wrap: anywhere;
+}
+
+.litnote-diag-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
